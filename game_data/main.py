@@ -1,13 +1,33 @@
 from classes import *
+from personages import *
 import random
 
+person_list = ['V', 'O', 'P']
 
-hero_2 = Hero('Валькирия', 'Д', 40, 17, 20, 30, 35)
-hero_1 = Hero('Одрикс', 'М', 70, 3, 50, 10, 20)
+def menu():
+    f'''
+    ************************
+    Добро Пожаловать В Меню
+    ************************
+    Вот Описание Персонажей :
+    '''
+    heroes = [
+        Hero('Валькирия', 'Д', 40, 17, 20, 30, 35, 'Маг - Чародей'),
+        Hero('Одрикс', 'М', 70, 3, 50, 10, 20, 'Танк'),
+        Hero('Папанистер', 'М', 55, 10, 20, 35, 37, 'Всадник')
+    ]
 
-monster_2 = Monster('Гоблин', 15, 2, 7, 10, 1, 25, (0, 25))
-monster_1 = Monster('Огр', 150, 1, 20, 5, 20, 30, (30, 270))
-monster_3 = Monster('Летун', 45, 7, 10, 17, 20, 10, (25, 200))
+    for hero in heroes:
+        print(f'''\033[0;31mИмя - {hero.name}\033[0m,
+• Гендер - {hero.gender},
+• Здоровье - {hero.hp},
+• Мана - {hero.mana},
+• Cила - {hero.strength},
+• Ловкость - {hero.agility},
+• Интеллект - {hero.intelligense},
+• Тип - {hero.Htype}''')
+
+menu()
 
 while hero_2.hp > 0 and monster_1.hp > 0:
     

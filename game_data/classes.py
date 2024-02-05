@@ -27,5 +27,6 @@ class Monster:
         self.intelligense = intelligense
         self.xp = xp
         self.gold = random.randint(*gold_range)
+    
 
 
