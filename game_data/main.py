@@ -1,12 +1,24 @@
 import random
 from personages import *
+from agility import *
+
+
+def ag_chance(agility):
+    if 10 <= agility <= 20:
+        chance = random.randint(1, 5)
+    else:
+        chance = random.randint(1, 10)
+    if chance == 1:
+        return True
+    else:
+        return False
 
 
 heroes = {
     'V': Hero('Валькирия', 40, 17, 20, 30, 'Маг - Чародей'),
-    'O': Hero('Одрикс', 70, 3, 50, 10,'Танк'),
+    'O': Hero('Одрикс', 70, 3, 50, 10, 'Танк'),
     'P': Hero('Папанистер', 55, 10, 20, 35, 'Всадник'),
-    'D': Hero('Довбик', 50, 10, 30, 15,'Доблестный Пон')
+    'D': Hero('Довбик', 50, 10, 30, 15, 'Доблестный Пон')
 }
 
 for hero_key, hero_value in heroes.items():
@@ -19,7 +31,7 @@ for hero_key, hero_value in heroes.items():
 
 print('''\033[0;43mВыберите Персонажа:\033[0m
 • V - Валькирия
-• О - Одрикс
+• O - Одрикс
 • P - Папанистер
 • D - Довбик  
 ''')
@@ -31,35 +43,37 @@ while selected_hero is None:
     u_input = input("Выберите Персонажа: ").upper()
     if u_input in heroes:
         selected_hero = heroes[u_input]
-        print(f"\033[0;43mВыбран персонаж: {selected_hero.name}\nВраг - {monster.Htype}\033[0m")
+        print(f"\033[0;43mВыбран персонаж: {selected_hero.name}\033[0m\n\033[0;43mВраг - {monster.Htype}\033[0m")
     else:
         print("Некорректный выбор персонажа. Попробуйте еще раз.")
 
-# Балансировка боя
-if 0 < monster.hp <= 20 and 40 < selected_hero.hp >= 50:
-    quantity = selected_hero.hp / monster.hp
-    total_m_hp = quantity * monster.hp
-    monster.hp = total_m_hp
-    total_m_strength = quantity * monster.strength
-    monster.strength = total_m_strength
-
-    print(f'Сбалансирован бой: количество монстров - {quantity}, общее HP монстров - {total_m_hp}, общая сила монстров - {total_m_strength}')
+    if 0 < monster.hp <= 20 and 40 < selected_hero.hp >= 50:
+        quantity = selected_hero.hp / monster.hp
+        total_m_hp = quantity * monster.hp
+        monster.hp = total_m_hp
+        total_m_strength = quantity * monster.strength
+        monster.strength = total_m_strength
+        print(f'Сбалансирован бой: количество монстров - {quantity}, общее HP монстров - {total_m_hp}, общая сила монстров - {total_m_strength}')
 
 
 while selected_hero.hp > 0 and monster.hp > 0:
     input(selected_hero.name + ', Нажми ENTER Для Атаки\n')
 
-    hero_damage = random.randint(0, selected_hero.strength)
-    if hero_damage <= 0:
-        print(f'{selected_hero.name} промахнулся!')
+    if ag_chance(selected_hero.agility):  # Передаем значение ловкости выбранного персонажа
+        print('Персонаж увернулся!')
     else:
-        monster.hp -= hero_damage
-        print(f'{selected_hero.name} Наносит Урон: {hero_damage}')
-        print(f'Осталось HP у монстра: {monster.hp}')  # Добавлен вывод HP монстра после урона
+        hero_damage = random.randint(0, selected_hero.strength)
 
-        if monster.hp <= 0:
-            print(f'{selected_hero.name} Убил {monster.Htype}\n')
-            break
+        if hero_damage <= 0:
+            print(f'{selected_hero.name} промахнулся!')
+        else:
+            monster.hp -= hero_damage
+            print(f'{selected_hero.name} Наносит Урон: {hero_damage}')
+            print(f'Осталось HP у монстра: {monster.hp}')  # Добавлен вывод HP монстра после урона
+
+            if monster.hp <= 0:
+                print(f'{selected_hero.name} Убил {monster.Htype}\n')
+                break
 
     monster_damage = random.randint(0, int(monster.strength))  # Преобразование к целому числу
     if monster_damage <= 0:
